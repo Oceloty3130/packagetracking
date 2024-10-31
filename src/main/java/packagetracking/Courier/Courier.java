@@ -1,4 +1,4 @@
-package packagetracking.Curier;
+package packagetracking.Courier;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Data
-public class Curier {
+public class Courier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,10 +17,13 @@ public class Curier {
 
     private String email;
 
-    @CreationTimestamp
+    private Status status;
+
+    private Integer managerId;
+
+    /*@CreationTimestamp
     @Column(updatable = false, nullable = false)
     private Date employmentDay;
 
-    private Date resignationDay = null;
-
+    private Date resignationDay = null;*/
 }

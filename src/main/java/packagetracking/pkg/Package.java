@@ -3,7 +3,7 @@ package packagetracking.pkg;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import packagetracking.Curier.Curier;
+import packagetracking.Courier.Courier;
 
 import java.util.Date;
 
@@ -23,6 +23,8 @@ public class Package {
 
     private Status status;
 
+    private Boolean payOnDelivery;
+
     @ManyToOne
-    private Curier curier;
+    private Courier courier;
 }

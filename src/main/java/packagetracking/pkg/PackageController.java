@@ -2,6 +2,8 @@ package packagetracking.pkg;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import packagetracking.Courier.Courier;
+import packagetracking.Courier.CourierService;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ public class PackageController {
 
     @Autowired
     private PackageService packageService;
+    @Autowired
+    private CourierService courierService;
 
     @PostMapping("/package")
     private Package create(@RequestBody Package myPackage) {
@@ -22,12 +26,18 @@ public class PackageController {
     }
 
     @PutMapping("/package/{id}")
-    private Package update(@PathVariable int id, @RequestBody Package myPackage) {
+    private Package update(@PathVariable Integer id, @RequestBody Package myPackage) {
         return packageService.updatePackage(id, myPackage);
     }
 
     @DeleteMapping("/package/{id}")
-    private void delete(@PathVariable int id) {
+    private void delete(@PathVariable Integer id) {
         packageService.deletePackage(id);
+    }
+
+    @GetMapping("/package/courier/{courierId}")
+    public List<Package> getCourierPackages(@PathVariable Integer courierId) {
+        Courier courier = courierService.getCourier(courierId);
+        return packageService.getPackagesForCourier(courier);
     }
 }

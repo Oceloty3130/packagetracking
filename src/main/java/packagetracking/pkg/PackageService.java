@@ -2,6 +2,7 @@ package packagetracking.pkg;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import packagetracking.Courier.Courier;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class PackageService {
         if(myPackage.getStatus() != null){
             existingPackage.setStatus(myPackage.getStatus());
         }
-        if(myPackage.getCurier() != null){
-            existingPackage.setCurier(myPackage.getCurier());
+        if(myPackage.getCourier() != null){
+            existingPackage.setCourier(myPackage.getCourier());
         }
         if(myPackage.getDeliveryAddress() != null){
             existingPackage.setDeliveryAddress(myPackage.getDeliveryAddress());
@@ -42,5 +43,16 @@ public class PackageService {
             throw new RuntimeException("Package not found");
         }
         packageRepository.deleteById(id);
+    }
+
+    public void deleteAllPackagesByCourier(Courier courier) {
+        List<Package> packageList = packageRepository.findPackageByCourier(courier);
+        for(Package p : packageList) {
+            deletePackage(p.getId());
+        }
+    }
+
+    public List<Package> getPackagesForCourier(Courier courier) {
+        return packageRepository.findPackageByCourier(courier);
     }
 }
