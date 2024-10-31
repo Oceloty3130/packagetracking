@@ -8,4 +8,5 @@ import java.util.List;
 public interface PackageRepository extends JpaRepository<Package, Integer> {
 
     List<Package> findPackageByCourier(Courier courier);
+    List<Package> findPackagesByStatus(Status status);
 }

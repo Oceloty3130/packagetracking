@@ -3,6 +3,7 @@ package packagetracking.pkg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import packagetracking.Courier.Courier;
+import packagetracking.Courier.CourierRepository;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ public class PackageService {
 
     @Autowired
     private PackageRepository packageRepository;
+    @Autowired
+    private CourierRepository courierRepository;
 
     public Package createPackage(Package myPackage) {
         if(myPackage == null) {
@@ -54,5 +57,14 @@ public class PackageService {
 
     public List<Package> getPackagesForCourier(Courier courier) {
         return packageRepository.findPackageByCourier(courier);
+    }
+
+    public List<Courier> getAllCouriersWithoutPendingPackages() {
+        List<Package> packageList = packageRepository.findPackagesByStatus(Status.valueOf("PENDING"));
+        List<Courier> courierList = courierRepository.findAll();
+        for(Package p : packageList) {
+            courierList.remove(p.getCourier());
+        }
+        return courierList;
     }
 }

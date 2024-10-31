@@ -40,4 +40,9 @@ public class PackageController {
         Courier courier = courierService.getCourier(courierId);
         return packageService.getPackagesForCourier(courier);
     }
+
+    @GetMapping("/package/pending")
+    public List<Courier> getPendingPackages() {
+        return packageService.getAllCouriersWithoutPendingPackages();
+    }
 }

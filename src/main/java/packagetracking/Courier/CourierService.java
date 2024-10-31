@@ -34,8 +34,8 @@ public class CourierService {
         if(courier.getStatus() != null){
             existingCourier.setStatus(courier.getStatus());
         }
-        if(courier.getManagerId() != null){
-            existingCourier.setManagerId(courier.getManagerId());
+        if(courier.getManager() != null){
+            existingCourier.setManager(courier.getManager());
         }
         return courierRepository.save(existingCourier);
     }
