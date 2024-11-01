@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import packagetracking.Courier.Courier;
 import packagetracking.Courier.CourierService;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -44,5 +45,10 @@ public class PackageController {
     @GetMapping("/package/pending")
     public List<Courier> getPendingPackages() {
         return packageService.getAllCouriersWithoutPendingPackages();
+    }
+
+    @GetMapping("/nrpackage")
+    public HashMap<Integer, Integer> getNrPackages() {
+        return packageService.getAllManagersAndDeliveredNumber();
     }
 }

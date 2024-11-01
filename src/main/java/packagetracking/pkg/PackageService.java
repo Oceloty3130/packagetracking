@@ -3,8 +3,8 @@ package packagetracking.pkg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import packagetracking.Courier.Courier;
-import packagetracking.Courier.CourierRepository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -12,8 +12,6 @@ public class PackageService {
 
     @Autowired
     private PackageRepository packageRepository;
-    @Autowired
-    private CourierRepository courierRepository;
 
     public Package createPackage(Package myPackage) {
         if(myPackage == null) {
@@ -60,11 +58,24 @@ public class PackageService {
     }
 
     public List<Courier> getAllCouriersWithoutPendingPackages() {
-        List<Package> packageList = packageRepository.findPackagesByStatus(Status.valueOf("PENDING"));
-        List<Courier> courierList = courierRepository.findAll();
+        return packageRepository.findAllCouriersWithoutPendingPackages();
+    }
+
+    public HashMap<Integer,Integer> getAllManagersAndDeliveredNumber(){
+        HashMap<Integer,Integer> managerMap = new HashMap<>();
+        List<Package> packageList = packageRepository.findPackagesByStatus(Status.valueOf("DELIVERED"));
         for(Package p : packageList) {
-            courierList.remove(p.getCourier());
+            Courier courier = p.getCourier();
+            if(courier.getManager() != null){
+                if(!managerMap.containsKey(courier.getManager().getId())) {
+                    managerMap.put(courier.getManager().getId(), 1);
+                }else {
+                    managerMap.put(courier.getManager().getId(), managerMap.get(courier.getManager().getId()) + 1);
+                }
+            }else {
+                managerMap.put(courier.getId(), managerMap.get(courier.getId()) + 1);
+            }
         }
-        return courierList;
+        return managerMap;
     }
 }
